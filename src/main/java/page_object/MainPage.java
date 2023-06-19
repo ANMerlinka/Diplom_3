@@ -2,6 +2,7 @@ package page_object;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,11 +19,11 @@ public class MainPage {
     public static By createOrderButton = By.xpath(".//button[text()='Оформить заказ']");
 
     // раздел Булки
-    public static By buttonBun = By.xpath(".//span[text()='Булки']");
+    public static By buttonBun = By.xpath(".//section[@class = 'BurgerIngredients_ingredients__1N8v2']/div/div[1]");
     // раздел Соусы
-    public static By buttonSouce = By.xpath(".//span[text()='Соусы']");
+    public static By buttonSauce = By.xpath(".//section[@class = 'BurgerIngredients_ingredients__1N8v2']/div/div[2]");
     // раздел Начинки
-    public static By buttonIngredient = By.xpath(".//span[text()='Начинки']");
+    public static By buttonIngredient = By.xpath(".//section[@class = 'BurgerIngredients_ingredients__1N8v2']/div/div[3]");
 
     // Верх бергера
     public static By constructorView = By.xpath(".//div[@class='constructor-element constructor-element_pos_top']");
@@ -57,28 +58,30 @@ public class MainPage {
         waitPresentOfElement(constructorView);
         return driver.findElement(constructorView).isDisplayed();
     }
-    public String getClassBun() {
-        return driver.findElement(buttonBun).getAttribute("class");
+
+    private boolean checkIfSectionChosen(By locator) {
+        WebElement section = driver.findElement(locator);
+        return section.getAttribute("class").contains("tab_tab_type_current__2BEPc");
     }
 
-    public String getClassSouce() {
-        return driver.findElement(buttonSouce).getAttribute("class");
-    }
-
-    public String getClassIngredient() {
-        return driver.findElement(buttonIngredient).getAttribute("class");
-    }
-
-    public void checkSelectBun() {
+    public boolean checkSelectBun() {
+        clickButton(buttonSauce);
         clickButton(buttonBun);
+        
+        return checkIfSectionChosen(buttonBun);
     }
 
-    public void checkSelectSouce() {
-        clickButton(buttonSouce);
+    public boolean checkSelectSauce() {
+        clickButton(buttonSauce);
+
+        return checkIfSectionChosen(buttonSauce);
     }
 
-    public void checkSelectIngredient() {
+    public boolean checkSelectIngredient() {
         clickButton(buttonIngredient);
+
+        return checkIfSectionChosen(buttonIngredient);
     }
+
 
 }
